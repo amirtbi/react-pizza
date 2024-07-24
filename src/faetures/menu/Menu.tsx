@@ -11,6 +11,7 @@ function Menu(){
                 <ul>
                   {menu.map((pizza)=><MenuItem key={pizza.id} pizza={pizza}/>)}
                 </ul>
+               
             </div>
         </>
 }
