@@ -6,53 +6,15 @@ import {
     formatDate,
   } from "../../utils/helper";
 import { IOrder } from "./types";
-  
-  const order = {
-    id: "ABCDEF",
-    customer: "Jonas",
-    phone: "123456789",
-    address: "Arroios, Lisbon , Portugal",
-    priority: true,
-    estimatedDelivery: "2027-04-25T10:00:00",
-    cart: [
-      {
-        pizzaId: 7,
-        name: "Napoli",
-        quantity: 3,
-        unitPrice: 16,
-        totalPrice: 48,
-      },
-      {
-        pizzaId: 5,
-        name: "Diavola",
-        quantity: 2,
-        unitPrice: 16,
-        totalPrice: 32,
-      },
-      {
-        pizzaId: 3,
-        name: "Romana",
-        quantity: 1,
-        unitPrice: 15,
-        totalPrice: 15,
-      },
-    ],
-    position: "-9.000,38.000",
-    orderPrice: 95,
-    priorityPrice: 19,
-  };
+import { getOrder } from "../../services/apiRestaurant";
+import { useActionData, useLoaderData } from "react-router-dom";
   
   function Order() {
-    // Everyone can search for all orders, so for privacy reasons we're gonna gonna exclude names or address, these are only for the restaurant staff
-    const {
-      id,
-      priority,
-      priorityPrice,
-      orderPrice,
-      estimatedDelivery,
-      cart,
-    }:IOrder = order;
-    const deliveryIn = calcMinutesLeft(estimatedDelivery);
+    const order =useLoaderData() as IOrder;
+    const error = useActionData();
+    console.log("action",order)
+
+    const deliveryIn = calcMinutesLeft(order.estimatedDelivery);
   
     return (
       <div>
@@ -60,7 +22,7 @@ import { IOrder } from "./types";
           <h2>Status</h2>
   
           <div>
-            {priority && <span>Priority</span>}
+            {order.priority && <span>Priority</span>}
             <span>{status} order</span>
           </div>
         </div>
@@ -68,19 +30,26 @@ import { IOrder } from "./types";
         <div>
           <p>
             {deliveryIn >= 0
-              ? `Only ${calcMinutesLeft(estimatedDelivery)} minutes left 😃`
+              ? `Only ${calcMinutesLeft(order.estimatedDelivery)} minutes left 😃`
               : "Order should have arrived"}
           </p>
-          <p>(Estimated delivery: {formatDate(estimatedDelivery)})</p>
+          <p>(Estimated delivery: {formatDate(order.estimatedDelivery)})</p>
         </div>
   
         <div>
-          <p>Price pizza: {formatCurrency(orderPrice)}</p>
-          {priority && <p>Price priority: {formatCurrency(priorityPrice)}</p>}
-          <p>To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}</p>
+          <p>Price pizza: {formatCurrency(order.orderPrice)}</p>
+          {order.priority && <p>Price priority: {formatCurrency(order.priorityPrice)}</p>}
+          <p>To pay on delivery: {formatCurrency(order.orderPrice + order.priorityPrice)}</p>
         </div>
       </div>
     );
   }
-  
-  export  {Order};
+
+  async function OrderLoader({params}){
+    const {orderId} = params as {orderId:number}; 
+    const order = await getOrder(orderId);
+    return order; 
+  }
+
+
+  export  {Order,OrderLoader};

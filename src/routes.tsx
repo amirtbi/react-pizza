@@ -3,8 +3,8 @@ import { AppLayout } from "./ui/AppLayout"
 import { Home } from "./ui/Home"
 import { Menu,loader } from "./faetures/menu/Menu"
 import { Cart } from "./faetures/cart/Cart"
-import { CreateOrder } from "./faetures/order/CreateOrder"
-import { Order } from "./faetures/order/Order"
+import { CreateOrder, action } from "./faetures/order/CreateOrder"
+import { Order, OrderLoader } from "./faetures/order/Order"
 import Error from "./ui/Error"
 
 export const routes = createBrowserRouter([
@@ -32,11 +32,13 @@ export const routes = createBrowserRouter([
         path: "/order/new",
         element: <CreateOrder />,
         errorElement: <Error />,
+        action:action
       },
       {
         path: "/order/:orderId",
         element: <Order />,
         errorElement: <Error />,
+        loader:OrderLoader
       },
     ],
   },

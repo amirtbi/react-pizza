@@ -8,12 +8,12 @@ export function AppLayout(){
     return (
       <>
         <div className="layout">
-          {isLoading && <Loader/>}
+          {isLoading && <Loader />}
           <Header />
           <main>
-            <Outlet/>
+            <Outlet />
           </main>
-          <CartOverview/>
+          <CartOverview />
         </div>
       </>
     );

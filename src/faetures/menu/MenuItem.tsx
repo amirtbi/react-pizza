@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { formatCurrency } from "../../utils/helper";
 import { IMenu } from "./types";
 function MenuItem(props:{pizza:IMenu}) {
@@ -12,6 +13,7 @@ function MenuItem(props:{pizza:IMenu}) {
           <div>
             {!soldOut ? <p>{formatCurrency(unitPrice)}</p> : <p>Sold out</p>}
           </div>
+          <Link to={`/order/${id}`}>Order</Link>
         </div>
       </li>
     );

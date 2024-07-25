@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
+import { SearchOrder } from "../faetures/order/SearchOrder";
 
 export function Header(){
     return <>
         <Link to="/">Home</Link>
-        <Link to="/order/1">Order 1</Link>
+        <SearchOrder/>
         <p>Pizza react app</p>
     </>
 }
