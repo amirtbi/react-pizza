@@ -7,12 +7,10 @@ import {
   } from "../../utils/helper";
 import { IOrder } from "./types";
 import { getOrder } from "../../services/apiRestaurant";
-import { useActionData, useLoaderData } from "react-router-dom";
+import {  useLoaderData } from "react-router-dom";
   
   function Order() {
     const order =useLoaderData() as IOrder;
-    const error = useActionData();
-    console.log("action",order)
 
     const deliveryIn = calcMinutesLeft(order.estimatedDelivery);
   
@@ -45,8 +43,8 @@ import { useActionData, useLoaderData } from "react-router-dom";
     );
   }
 
-  async function OrderLoader({params}){
-    const {orderId} = params as {orderId:number}; 
+  async function OrderLoader(props:{params:{[key:string]:number}}){
+    const {orderId} = props.params as {orderId:number}; 
     const order = await getOrder(orderId);
     return order; 
   }
