@@ -1,13 +1,19 @@
 import { useState } from "react";
 import { ICart } from "../cart/types";
-import { Form, redirect, useActionData, useNavigate, useNavigation } from "react-router-dom";
+import {
+  Form,
+  redirect,
+  useActionData,
+  useNavigate,
+  useNavigation,
+} from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 import { IOrder } from "./types";
 
 // https://uibakery.io/regex-library/phone-number
-const isValidPhone = (str:string) =>
+const isValidPhone = (str: string) =>
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
-    str
+    str,
   );
 
 const fakeCart = [
@@ -37,9 +43,9 @@ const fakeCart = [
 function CreateOrder() {
   const navigation = useNavigation();
   // const [withPriority, setWithPriority] = useState(false);
-  const isSubmitting = navigation.state ==="submitting";
-  const formError = useActionData() as {[key:string] :string};
-  const cart:ICart[] = fakeCart;
+  const isSubmitting = navigation.state === "submitting";
+  const formError = useActionData() as { [key: string]: string };
+  const cart: ICart[] = fakeCart;
 
   return (
     <div>
@@ -78,7 +84,12 @@ function CreateOrder() {
         </div>
 
         <div>
-          <button disabled={isSubmitting}>Order now</button>
+          <button
+            disabled={isSubmitting}
+            className="duration-30 inline-block rounded-full bg-yellow-400 px-4 py-3 font-semibold uppercase tracking-wide text-stone-800 transition-colors hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed"
+          >
+            Order now
+          </button>
         </div>
         <input type="hidden" value={JSON.stringify(cart)} name="cart" />
       </Form>
@@ -86,25 +97,25 @@ function CreateOrder() {
   );
 }
 
-export async function action({request}){
-  debugger
-  const formData  = await request.formData();
-  const data = Object.fromEntries(formData)
-  const order:IOrder = {
+export async function action({ request }) {
+  debugger;
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  const order: IOrder = {
     ...data,
-    cart:JSON.parse(data.cart),
-    priority:data.priority ==="on"
-  }
+    cart: JSON.parse(data.cart),
+    priority: data.priority === "on",
+  };
 
-  const errors:{[key:string]:string} = {};
-  
-  if(!isValidPhone(order.phone)){
-   errors.phone = "Please check your phone number, It has wrong format.";
+  const errors: { [key: string]: string } = {};
+
+  if (!isValidPhone(order.phone)) {
+    errors.phone = "Please check your phone number, It has wrong format.";
   }
-  if(Object.keys(errors).length > 0) return errors;
-  
+  if (Object.keys(errors).length > 0) return errors;
+
   const newOrder = await createOrder(order);
-  
-  return redirect(`/order/${newOrder.id}`)
+
+  return redirect(`/order/${newOrder.id}`);
 }
-export  {CreateOrder};
+export { CreateOrder };

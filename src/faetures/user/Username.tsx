@@ -1,7 +1,7 @@
 export function Username() {
   return (
     <>
-      <div className="hidden text-sm font-semibold">JONAS</div>
+      <div className="hidden text-sm font-semibold md:block">JONAS</div>
     </>
   );
 }
