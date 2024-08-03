@@ -55,14 +55,14 @@ function CreateOrder() {
         <div className="mb-2">
           <label>First Name</label>
           <div className="mt-2">
-          <input className=" transition-all duration-300 rounded-md border py-2 text-sm border-stone-200 px-4 placeholder:text-stone-400 outline-none focus:outline-none w-full focus:ring focus:ring-yellow-400" type="text" name="customer" required />
+          <input className="input" type="text" name="customer" required />
           </div>
         </div>
 
         <div className="mb-2">
           <label>Phone number</label>
           <div className="mt-2">
-            <input className=" transition-all duration-300 rounded-md border py-2 text-sm border-stone-200 px-4 placeholder:text-stone-400 outline-none focus:outline-none w-full focus:ring focus:ring-yellow-400" type="tel" name="phone" required />
+            <input className="input" type="tel" name="phone" required />
           </div>
           <small>{formError?.phone && formError.phone} </small>
         </div>
@@ -70,13 +70,13 @@ function CreateOrder() {
         <div className="mb-2">
           <label>Address</label>
           <div className="mt-2">
-            <input  type="text" className=" transition-all duration-300 rounded-md border py-2 text-sm border-stone-200 px-4 placeholder:text-stone-400 outline-none focus:outline-none w-full focus:ring focus:ring-yellow-400" name="address" required />
+            <input  type="text" className="input" name="address" required />
           </div>
         </div>
 
         <div className="mb-2">
           <input
-          className="mr-2 accent-yellow-400 h-6 w-6 focus:outline-none focus:ring focus:ring-offset-2 transition-all duration-300 focus:ring-yellow-400"
+          className="mr-2 accent-yellow-400 h-6 w-6"
             type="checkbox"
             name="priority"
             id="priority"
