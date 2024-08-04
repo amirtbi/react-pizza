@@ -9,6 +9,9 @@
 }
   
   .loader {
+    position:fixed;
+    left:50%;
+    top:50%;
     width: 45px;
     aspect-ratio: 0.75;
     --c: no-repeat linear-gradient(#333 0 0);
