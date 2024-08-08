@@ -4,7 +4,10 @@
 
 @layer components{
   .input{
-    @apply transition-all duration-300 rounded-md border py-2 text-sm border-stone-200 px-4 placeholder:text-stone-400 outline-none focus:outline-none w-full focus:ring focus:ring-yellow-400
+    @apply transition-all duration-300 rounded-md border py-2 text-sm border-stone-200 px-4 placeholder:text-stone-400 outline-none focus:outline-none  focus:ring focus:ring-yellow-400
+  }
+  .form-field{
+    @apply flex flex-col sm:flex-row sm:items-center mb-2
   }
 }
   

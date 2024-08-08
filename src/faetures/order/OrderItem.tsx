@@ -1,15 +1,19 @@
 import { formatCurrency } from "../../utils/helper";
+import { ICart } from "../cart/types";
 
-function OrderItem({ item, isLoadingIngredients, ingredients }) {
-  const { quantity, name, totalPrice } = item;
+interface OrderItem{
+  item:ICart;
+}
+
+function OrderItem({item}:OrderItem) {
 
   return (
-    <li>
-      <div>
-        <p>
-          <span>{quantity}&times;</span> {name}
+    <li className="p-4">
+      <div className="flex justify-between">
+        <p className="font-medium text-md">
+          <span>{item.quantity}&times;</span> {item.name}
         </p>
-        <p>{formatCurrency(totalPrice)}</p>
+        <p className="font-bold text-sm">{formatCurrency(item.totalPrice)}</p>
       </div>
     </li>
   );

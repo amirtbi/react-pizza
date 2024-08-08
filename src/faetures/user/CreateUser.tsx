@@ -15,7 +15,7 @@ function CreateUser() {
       </p>
 
       <input
-        className="input"
+        className="input w-full"
         type="text"
         placeholder="Your full name"
         value={username}

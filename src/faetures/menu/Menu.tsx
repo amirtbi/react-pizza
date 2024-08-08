@@ -5,7 +5,6 @@ import { IMenu } from "./types";
 
 function Menu(){
     const menu = useLoaderData() as IMenu[];
-    console.log(menu)
         return <>
             <div>
                 <ul className="divide-y divide-stone-200">

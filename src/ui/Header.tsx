@@ -6,7 +6,7 @@ export function Header() {
   return (
     <>
       <header className="items-center flex justify-between border-b border-stone-200 bg-yellow-400 px-4 py-3 uppercase sm:px-6">
-        <Link to="/" className=" tracking-widest font-pizza ">
+        <Link to="/" className="tracking-widest text-xs md:text-md">
           Fast react Pizza Co.
         </Link>
         <SearchOrder />

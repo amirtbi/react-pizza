@@ -13,7 +13,7 @@ function MenuItem(props:{pizza:IMenu}) {
           <p className="capitalize italic text-stone-500">{ingredients.join(', ')}</p>
           <div className="mt-auto flex items-center justify-between">
             {!soldOut ? <p>{formatCurrency(unitPrice)}</p> : <p className="text-sm uppercase font-medium text-stone-500">Sold out</p>}
-          <Button variant="solid"><Icon icon="material-symbols:garden-cart-outline" /></Button>
+           <Button variant="solid" iconName="material-symbols:garden-cart-outline"></Button>
           </div>
         </div>
       </li>
