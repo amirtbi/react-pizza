@@ -1,32 +1,35 @@
-import { useState } from "react";
+import { FormEvent, useRef } from "react";
 import { Button } from "../../ui/Button";
 
 function CreateUser() {
-  const [username, setUsername] = useState("");
+  const userInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  function handleSubmit(e) {
+  function handleSubmit(e:FormEvent) {
     e.preventDefault();
+    if(userInputRef.current?.value){
+      formRef.current?.reset();
+    }
+    
   }
 
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} ref={formRef}>
       <p className="mb-4 text-sm text-stone-600 md:text-base">
         👋 Welcome! Please start by telling us your name:
       </p>
 
       <input
-        className="input w-full"
+        className="input rounded-full"
         type="text"
         placeholder="Your full name"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        ref={userInputRef}
       />
 
-      {username !== "" && (
         <div className="mt-2">
           <Button variant="solid">Start ordering</Button>
         </div>
-      )}
     </form>
   );
 }

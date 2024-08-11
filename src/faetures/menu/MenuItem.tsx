@@ -1,4 +1,3 @@
-import { Icon } from '@iconify/react';
 import { formatCurrency } from "../../utils/helper";
 import { IMenu } from "./types";
 import { Button } from "../../ui/Button";
@@ -6,7 +5,7 @@ function MenuItem(props:{pizza:IMenu}) {
     const { id, name, unitPrice, ingredients, soldOut, imageUrl } = props.pizza;
   
     return (
-      <li className="flex gap-4 py-2">
+      <li className="flex gap-4 py-2 px-2">
         <img src={imageUrl} alt={name} className={`h-24 ${soldOut ? 'opacity-50 grayscale' :''}`} />
         <div className="flex flex-col grow">
           <p className="font-medium text-sm ">{name}</p>
