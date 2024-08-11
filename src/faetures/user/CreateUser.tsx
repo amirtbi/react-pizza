@@ -1,16 +1,24 @@
 import { FormEvent, useRef } from "react";
 import { Button } from "../../ui/Button";
+import { useDispatch } from "react-redux";
+import { updateName } from "./userSlice";
+import { useNavigate } from "react-router-dom";
 
 function CreateUser() {
   const userInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   function handleSubmit(e:FormEvent) {
     e.preventDefault();
+    if(userInputRef.current?.value =="") return;
     if(userInputRef.current?.value){
+      dispatch(updateName(userInputRef.current?.value));
+      navigate("/menu")
       formRef.current?.reset();
     }
-    
   }
 
 
@@ -27,7 +35,7 @@ function CreateUser() {
         ref={userInputRef}
       />
 
-        <div className="mt-2">
+      <div className="mt-2">
           <Button variant="solid">Start ordering</Button>
         </div>
     </form>

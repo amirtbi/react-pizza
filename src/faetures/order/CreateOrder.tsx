@@ -10,6 +10,8 @@ import {
 import { createOrder } from "../../services/apiRestaurant";
 import { IOrder } from "./types";
 import { Button } from "../../ui/Button";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str: string) =>
@@ -43,6 +45,7 @@ const fakeCart = [
 
 function CreateOrder() {
   const navigation = useNavigation();
+  const username = useSelector((state:RootState)=>state.user.username);
   // const [withPriority, setWithPriority] = useState(false);
   const isSubmitting = navigation.state === "submitting";
   const formError = useActionData() as { [key: string]: string };
@@ -55,7 +58,7 @@ function CreateOrder() {
       <Form method="POST" className="p-4">
         <div className="form-field">
           <label className="sm:basis-40">First Name</label>
-          <input className="input grow" type="text" name="customer" required />
+          <input className="input grow" type="text" name="customer" defaultValue={username} required />
         </div>
 
         <div className="form-field mb-2">
