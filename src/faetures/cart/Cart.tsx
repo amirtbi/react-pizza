@@ -30,8 +30,9 @@ const fakeCart = [
 ];
 
 function Cart() {
-  const cart = fakeCart;
-  const username = useSelector((state:RootState)=>state.user.username);
+  const username = useSelector((state:RootState)=>state.user.username),
+         carts = useSelector((state:RootState)=>state.cart.cart);
+
 
   return (
     <div className="px-2 py-4">
@@ -42,16 +43,19 @@ function Cart() {
       </LinkButton>
 
       <h2 className="mt-2 font-semibold">Your cart,{username}</h2>
-      <ul className="divide-y divide-stone-200 border-b mt-3">
-        {fakeCart.map(cart=><CartItem key={cart.pizzaId}
-         name={cart.name}
-         pizzaId={cart.pizzaId}
-          quantity={cart.quantity} totalPrice={cart.totalPrice} unitPrice={cart.unitPrice}/>)}
-      </ul>
-      <div className="mt-6 space-x-2">
-        <Button variant="solid" to="/order/new">Order pizzas</Button>
-        <Button variant="outline">Clear cart</Button>
-      </div>
+      {carts.length ? <>
+          <ul className="divide-y divide-stone-200 border-b mt-3">
+            {carts.map(cart=><CartItem key={cart.pizzaId}
+            name={cart.name}
+            pizzaId={cart.pizzaId}
+            quantity={cart.quantity} totalPrice={cart.totalPrice} unitPrice={cart.unitPrice}/>)}
+          </ul>
+          <div className="mt-6 space-x-2">
+            <Button variant="solid" to="/order/new">Order pizzas</Button>
+            <Button variant="outline">Clear cart</Button>
+          </div> 
+         </>
+      : <div className="text-center font-bold text-stone-400 text-deco">Your cart is empty</div>}
     </div>
   );
 }

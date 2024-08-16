@@ -2,9 +2,9 @@ import { useLoaderData } from "react-router-dom";
 import { getMenu } from "../../services/apiRestaurant"
 import { MenuItem } from "./MenuItem";
 import { IMenu } from "./types";
-
 function Menu(){
     const menu = useLoaderData() as IMenu[];
+    
         return <>
             <div>
                 <ul className="divide-y divide-stone-200">
