@@ -15,14 +15,15 @@ function Cart() {
         }
   return (
     <div className="px-2 py-4">
-      <LinkButton
+     
+
+      {carts.length ? <>
+      <h2 className="mt-2 font-semibold">Your cart,{username}</h2>
+        <LinkButton
         path="/menu"
       >
         &larr; Back to menu
       </LinkButton>
-
-      <h2 className="mt-2 font-semibold">Your cart,{username}</h2>
-      {carts.length ? <>
           <ul className="divide-y divide-stone-200 border-b mt-3">
             {carts.map(cart=><CartItem key={cart.pizzaId}
             name={cart.name}

@@ -1,13 +1,13 @@
 import { ICart } from "../cart/types";
 
 export interface IOrder {
-    id: string;
+    id?: string;
     customer: string;
     phone: string;
     address: string;
     status: string;
     priority: boolean;
-    estimatedDelivery: string;
+    estimatedDelivery?: string;
     cart: ICart[];
     position: string;
     orderPrice: number;
