@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ICart } from "./types";
-import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 
 const initialState: { cart: ICart[] } = {

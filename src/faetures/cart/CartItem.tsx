@@ -1,7 +1,7 @@
 import { formatCurrency } from "../../utils/helper";
 import { ICart } from "./types";
 import { UpdateItemQuantity } from "../../ui/UpdateItemQuantity";
-import  DeleteItem  from "./DeleteItem";
+import  DeleteItem  from "../../ui/DeleteItem";
 function CartItem({ pizzaId, name, quantity, totalPrice }:ICart) {
 
     return (

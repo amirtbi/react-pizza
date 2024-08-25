@@ -4,7 +4,7 @@ import { Button } from "../../ui/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, getQuantityById } from "../cart/cartSlice";
 import { UpdateItemQuantity } from "../../ui/UpdateItemQuantity";
-import DeleteItem  from "../cart/DeleteItem";
+import DeleteItem  from "../../ui/DeleteItem";
 
 function MenuItem(props: {pizza:IMenu}) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = props.pizza;
