@@ -10,7 +10,6 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         updateName(state, action) {
-            debugger
             state.username = action.payload;
         }
     }

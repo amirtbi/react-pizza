@@ -10,9 +10,9 @@ import {
 import { createOrder } from "../../services/apiRestaurant";
 import { IOrder } from "./types";
 import { Button } from "../../ui/Button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { getCart } from "../cart/cartSlice";
+import { clearCart, getCart } from "../cart/cartSlice";
 import { EmptyCart } from "../cart/EmptyCart";
 import { useRef } from "react";
 
@@ -56,7 +56,7 @@ interface CreateOrder {
 }
 
 function CreateOrder() {
-  const navigation = useNavigation();
+const dispatch = useDispatch();
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors }, reset } = useForm<CreateOrder>();
   const username = useSelector((state: RootState) => state.user.username);
@@ -82,6 +82,7 @@ function CreateOrder() {
     } finally {
       isSubmitting.current = false;
       reset();
+      dispatch(clearCart(""));
     }
   }
 
