@@ -16,6 +16,7 @@ import { clearCart, getCart, getTotalPrice } from "../cart/cartSlice";
 import { EmptyCart } from "../cart/EmptyCart";
 import { useRef } from "react";
 import { formatCurrency } from "../../utils/helper";
+import { fecthAddress } from "../user/userSlice";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str: string) =>
@@ -93,7 +94,7 @@ const dispatch = useDispatch();
   return (
     <div className="shadow-md m-4 p-2" >
       <h2 className="p-2 font-semibold">Ready to order? Let's go!</h2>
-
+      <button onClick={()=>dispatch(fecthAddress())}>Get position</button>
       <form className="p-4" onSubmit={handleSubmit(submitForm)}>
         <div className="form-field">
           <label className="sm:basis-40">userName</label>
