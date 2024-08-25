@@ -4,6 +4,7 @@ import { MenuItem } from "./MenuItem";
 import { IMenu } from "./types";
 function Menu(){
     const menu = useLoaderData() as IMenu[];
+    console.log(menu)
     
         return <>
             <div>

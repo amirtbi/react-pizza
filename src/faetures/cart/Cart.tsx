@@ -1,39 +1,18 @@
-import { Link } from "react-router-dom";
 import { LinkButton } from "../../ui/LinkButton";
 import { Button } from "../../ui/Button";
 import { CartItem } from "./CartItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-
-const fakeCart = [
-  {
-    pizzaId: 12,
-    name: "Mediterranean",
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32,
-  },
-  {
-    pizzaId: 6,
-    name: "Vegetale",
-    quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13,
-  },
-  {
-    pizzaId: 11,
-    name: "Spinach and Mushroom",
-    quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15,
-  },
-];
-
+import { clearCart } from "./cartSlice";
+import { EmptyCart } from "./EmptyCart";
 function Cart() {
   const username = useSelector((state:RootState)=>state.user.username),
-         carts = useSelector((state:RootState)=>state.cart.cart);
+         carts = useSelector((state:RootState)=>state.cart.cart),
+        dispatch =useDispatch();
 
-
+        const clear = ()=>{
+          dispatch(clearCart([]))
+        }
   return (
     <div className="px-2 py-4">
       <LinkButton
@@ -52,10 +31,10 @@ function Cart() {
           </ul>
           <div className="mt-6 space-x-2">
             <Button variant="solid" to="/order/new">Order pizzas</Button>
-            <Button variant="outline">Clear cart</Button>
+            <Button variant="outline" onClick={clear}>Clear cart</Button>
           </div> 
          </>
-      : <div className="text-center font-bold text-stone-400 text-deco">Your cart is empty</div>}
+      : <EmptyCart/>}
     </div>
   );
 }
