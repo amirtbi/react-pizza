@@ -6,7 +6,7 @@ export interface IOrder {
     phone: string;
     address: string;
     status: string;
-    priority: boolean;
+    priority: string;
     estimatedDelivery?: string;
     cart: ICart[];
     position: string;

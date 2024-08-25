@@ -12,9 +12,10 @@ import { IOrder } from "./types";
 import { Button } from "../../ui/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { clearCart, getCart } from "../cart/cartSlice";
+import { clearCart, getCart, getTotalPrice } from "../cart/cartSlice";
 import { EmptyCart } from "../cart/EmptyCart";
 import { useRef } from "react";
+import { formatCurrency } from "../../utils/helper";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str: string) =>
@@ -64,12 +65,13 @@ const dispatch = useDispatch();
   // const isSubmitting = navigation.state === "submitting";
   const isSubmitting = useRef(false);
   const cart = useSelector(getCart);
+  const totalPrice = useSelector(getTotalPrice);
 
   const submitForm: SubmitHandler<CreateOrder> = async (data) => {
     const order: IOrder = {
       ...data,
       cart,
-      priority: data.priority
+      priority: data.priority ? "true" :"false"
     };
     try {
       isSubmitting.current = true;
@@ -122,7 +124,7 @@ const dispatch = useDispatch();
             className="mr-2 accent-yellow-400 h-6 w-6"
             type="checkbox"
             id="priority"
-            {...register("priority", { required: true })}
+            {...register("priority")}
           />
           <label htmlFor="priority">Want to yo give your order priority?</label>
         </div>
@@ -130,7 +132,7 @@ const dispatch = useDispatch();
         <div className="mt-8">
           <Button type="submit" variant="solid" disabled={isSubmitting.current}
           >
-            {isSubmitting ? "Placing order here..." : "Order now"}
+            {isSubmitting ? `Placing order here ${formatCurrency(totalPrice)} ` : "Order now"}
           </Button>
         </div>
         {/* <input type="hidden" value={JSON.stringify(cart)} name="cart" /> */}
