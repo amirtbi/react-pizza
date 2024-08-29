@@ -68,13 +68,11 @@ const dispatch = useDispatch();
     phone:""
 
   }});
-  const status = useSelector((state:RootState)=>state.user.status);
   const address =useSelector((state:RootState)=>state.user.address);
-  // const [withPriority, setWithPriority] = useState(false);
-  // const isSubmitting = navigation.state === "submitting";
   const isSubmitting = useRef(false);
   const cart = useSelector(getCart);
   const totalPrice = useSelector(getTotalPrice);
+
 
   const submitForm: SubmitHandler<CreateOrder> = async (data) => {
     const order: IOrder = {
@@ -103,10 +101,12 @@ const dispatch = useDispatch();
       setValue("address",address)
   }
 
+
   useEffect(()=>{
+    console.log
     reset({customer:username})
   },[username,watch])
-  
+
   if (!cart.length) return <EmptyCart />
 
   return (
