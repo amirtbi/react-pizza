@@ -1,10 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
-interface FecthAddressReturnType {
-    address: string;
-    position: { latitude: number; longitude: number }
-}
-
 
 import { getAddress } from "../../services/apiGeocoding";
 import { AppDispatch } from "../../store";
@@ -16,7 +11,13 @@ function getPosition() {
 }
 
 
-
+type IStates = {
+    username: string,
+    status: "idle" | "loading" | "error",
+    position: { latitude: number, longitude: number } | null,
+    address: string,
+    error: string
+}
 
 
 export const fecthAddress = createAsyncThunk("user/fetchAddress", async function () {
@@ -32,10 +33,12 @@ export const fecthAddress = createAsyncThunk("user/fetchAddress", async function
     return { position, address }; // return value of fullfiled in store
 })
 
-const initialState = {
+
+
+const initialState: IStates = {
     username: "",
     status: "idle",
-    position: {},
+    position: null,
     address: "",
     error: ""
 }
@@ -52,7 +55,7 @@ const userSlice = createSlice({
     },
     extraReducers(builder) {
         builder.addCase(fecthAddress.pending, (state, _) => {
-            state.status = "loaidng";
+            state.status = "loading";
         })
             .addCase(fecthAddress.fulfilled, (state, action) => {
                 console.log("action", action)

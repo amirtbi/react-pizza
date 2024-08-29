@@ -58,17 +58,19 @@ interface CreateOrder {
 }
 
 function CreateOrder() {
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const username = useSelector((state: RootState) => state.user.username);
-  const { register, handleSubmit, formState: { errors }, reset,setValue ,watch} = useForm<CreateOrder>({defaultValues:{
-    customer:username,
-    address:"",
-    priority:false,
-    phone:""
+  const { username, address, status: AddressStatus, position ,error:errorAddress} = useSelector((state: RootState) => state.user);
+  const { register, handleSubmit, formState: { errors }, reset, setValue, watch } = useForm<CreateOrder>({
+    defaultValues: {
+      customer: username,
+      address: address,
+      priority: false,
+      phone: ""
 
-  }});
-  const address =useSelector((state:RootState)=>state.user.address);
+    }
+  });
+  const loadingAddress = AddressStatus === "loading";
   const isSubmitting = useRef(false);
   const cart = useSelector(getCart);
   const totalPrice = useSelector(getTotalPrice);
@@ -78,7 +80,7 @@ const dispatch = useDispatch();
     const order: IOrder = {
       ...data,
       cart,
-      priority: data.priority ? "true" :"false"
+      priority: data.priority ? "true" : "false"
     };
     try {
       isSubmitting.current = true;
@@ -96,22 +98,23 @@ const dispatch = useDispatch();
   }
 
 
-  const handleSetAddress = ()=>{
-      dispatch(fecthAddress());
-      setValue("address",address)
+  const handleSetAddress = () => {
+    dispatch(fecthAddress());
+    setValue("address", address)
   }
 
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log
-    reset({customer:username})
-  },[username,watch])
+    reset({ customer: username, address: address })
+  }, [username, watch, address])
 
   if (!cart.length) return <EmptyCart />
 
   return (
     <div className="shadow-md m-4 p-2" >
       <h2 className="p-2 font-semibold">Ready to order? Let's go!</h2>
+      {errorAddress && <p className="text-xs text-center text-yellow-700 font-medium">{errorAddress}</p>}
       <form className="p-4" onSubmit={handleSubmit(submitForm)}>
         <div className="form-field">
           <label className="sm:basis-40">userName</label>
@@ -130,16 +133,19 @@ const dispatch = useDispatch();
         </div>
 
         <div className="form-field mb-2 relative">
-       
           <label className="sm:basis-40">Address</label>
           <div className="grow mt-2">
-            <input type="text" className="input w-full" {...register("address", { required: true })} onFocus={handleSetAddress} />
-        {/* {errors.address && <div className="rounded-md text-red-500 bg-red-100 mt-2 p-2 text-xs ">address is required!</div>} */}
+            <input type="text" className="input w-full"
+              disabled={loadingAddress} {...register("address", { required: true })} />
+            {errors.address && <span className="text-error mt-2 ">address is required!</span>}
           </div>
 
-          <span className="absolute right-1 bottom-2">
-            <span className="bg-yellow-300 py-2 px-4 text-xs font-medium rounded-full cursor-pointer"  onClick={handleSetAddress}>Get Position</span>
-          </span>
+          {
+            !(position?.longitude && position?.latitude) &&
+            <span className={`${errors.address ? "bottom-[32px]" : "bottom-2"} absolute right-1`}>
+              <span className={`${!loadingAddress && 'cursor-pointer'} bg-yellow-300 py-2 px-4 text-xs font-medium rounded-full`} onClick={handleSetAddress}>Get Position</span>
+            </span>
+          }
         </div>
 
 
@@ -154,7 +160,7 @@ const dispatch = useDispatch();
         </div>
 
         <div className="mt-8">
-          <Button type="submit" variant="solid" disabled={isSubmitting.current}
+          <Button type="submit" variant="solid" disabled={loadingAddress || isSubmitting.current}
           >
             {isSubmitting ? `Placing order here ${formatCurrency(totalPrice)} ` : "Order now"}
           </Button>
