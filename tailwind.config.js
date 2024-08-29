@@ -25,10 +25,6 @@ export default {
     fontFamily:{
       sans:"Roboto Mono, monospace"
     },
-    extend:{
-      colors:{
-      }
-    }
 
   },
   plugins: [],

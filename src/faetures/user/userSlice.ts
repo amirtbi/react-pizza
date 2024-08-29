@@ -1,13 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
+interface FecthAddressReturnType {
+    address: string;
+    position: { latitude: number; longitude: number }
+}
+
+
 import { getAddress } from "../../services/apiGeocoding";
+import { AppDispatch } from "../../store";
 
 function getPosition() {
     return new Promise(function (resolve, reject) {
         navigator.geolocation.getCurrentPosition(resolve, reject);
     });
 }
-
 
 
 
@@ -41,7 +47,8 @@ const userSlice = createSlice({
     reducers: {
         updateName(state, action) {
             state.username = action.payload;
-        }
+        },
+
     },
     extraReducers(builder) {
         builder.addCase(fecthAddress.pending, (state, _) => {

@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { clearCart, getCart, getTotalPrice } from "../cart/cartSlice";
 import { EmptyCart } from "../cart/EmptyCart";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { formatCurrency } from "../../utils/helper";
 import { fecthAddress } from "../user/userSlice";
 
@@ -60,8 +60,16 @@ interface CreateOrder {
 function CreateOrder() {
 const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<CreateOrder>();
   const username = useSelector((state: RootState) => state.user.username);
+  const { register, handleSubmit, formState: { errors }, reset,setValue ,watch} = useForm<CreateOrder>({defaultValues:{
+    customer:username,
+    address:"",
+    priority:false,
+    phone:""
+
+  }});
+  const status = useSelector((state:RootState)=>state.user.status);
+  const address =useSelector((state:RootState)=>state.user.address);
   // const [withPriority, setWithPriority] = useState(false);
   // const isSubmitting = navigation.state === "submitting";
   const isSubmitting = useRef(false);
@@ -89,18 +97,27 @@ const dispatch = useDispatch();
     }
   }
 
+
+  const handleSetAddress = ()=>{
+      dispatch(fecthAddress());
+      setValue("address",address)
+  }
+
+  useEffect(()=>{
+    reset({customer:username})
+  },[username,watch])
+  
   if (!cart.length) return <EmptyCart />
 
   return (
     <div className="shadow-md m-4 p-2" >
       <h2 className="p-2 font-semibold">Ready to order? Let's go!</h2>
-      <button onClick={()=>dispatch(fecthAddress())}>Get position</button>
       <form className="p-4" onSubmit={handleSubmit(submitForm)}>
         <div className="form-field">
           <label className="sm:basis-40">userName</label>
           <div className="grow">
-            <input className="input w-full" type="text" defaultValue={username} {...register("customer", { required: true })} />
-            {errors?.customer && <p className="rounded-md text-red-500 bg-red-100 mt-2 p-2 text-xs ">username is required!</p>}
+            <input className="input w-full" type="text"  {...register("customer", { required: true })} />
+            {errors?.customer && <span className="text-error mt-2 ">username is required!</span>}
           </div>
         </div>
 
@@ -108,17 +125,23 @@ const dispatch = useDispatch();
           <label className="sm:basis-40">Phone number</label>
           <div className="grow mt-2">
             <input className="input w-full" type="tel" {...register("phone", { required: true })} />
-            {errors?.phone && <p className="rounded-md text-red-500 bg-red-100 mt-2 p-2 text-xs">Phone number is required </p>}
+            {errors?.phone && <span className="text-error mt-2">Phone number is required! </span>}
           </div>
         </div>
 
-        <div className="form-field mb-2">
+        <div className="form-field mb-2 relative">
+       
           <label className="sm:basis-40">Address</label>
           <div className="grow mt-2">
-            <input type="text" className="input w-full" {...register("address", { required: true })} />
-            {errors.address && <p className="rounded-md text-red-500 bg-red-100 mt-2 p-2 text-xs ">address is required!</p>}
+            <input type="text" className="input w-full" {...register("address", { required: true })} onFocus={handleSetAddress} />
+        {/* {errors.address && <div className="rounded-md text-red-500 bg-red-100 mt-2 p-2 text-xs ">address is required!</div>} */}
           </div>
+
+          <span className="absolute right-1 bottom-2">
+            <span className="bg-yellow-300 py-2 px-4 text-xs font-medium rounded-full cursor-pointer"  onClick={handleSetAddress}>Get Position</span>
+          </span>
         </div>
+
 
         <div className="flex items-center gap-4 my-4">
           <input
