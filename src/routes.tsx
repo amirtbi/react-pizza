@@ -5,6 +5,7 @@ import { Menu,loader } from "./faetures/menu/Menu"
 import { Cart } from "./faetures/cart/Cart"
 import { CreateOrder } from "./faetures/order/CreateOrder"
 import { Order, OrderLoader } from "./faetures/order/Order"
+import {action as updateOrder} from "./faetures/order/UpdateOrder"
 import Error from "./ui/Error"
 
 export const routes = createBrowserRouter([
@@ -38,7 +39,8 @@ export const routes = createBrowserRouter([
         path: "/order/:orderId",
         element: <Order />,
         errorElement: <Error />,
-        loader:OrderLoader
+        loader:OrderLoader,
+        action:updateOrder
       },
     ],
   },
