@@ -7,12 +7,22 @@ import {
 } from "../../utils/helper";
 import { IOrder } from "./types";
 import { getOrder } from "../../services/apiRestaurant";
-import { useLoaderData } from "react-router-dom";
+import { useFetcher, useLoaderData } from "react-router-dom";
 import { OrderItem } from "./OrderItem";
+import { useEffect } from "react";
 
 function Order() {
   const order = useLoaderData() as IOrder;
-  console.log(order)
+  const fetcher =useFetcher();
+
+
+  useEffect(()=>{
+    if(fetcher.state =="idle" && !fetcher.data){
+      fetcher.load("/menu")
+    }
+  },[])
+
+  console.log("fetcher",fetcher.data)
 
   const deliveryIn = calcMinutesLeft(order.estimatedDelivery);
 
@@ -37,7 +47,8 @@ function Order() {
       </div>
 
       <ul className="divide-y divide-stone-200 border-b">
-        {order.cart.map(item => <OrderItem item={item} key={item.pizzaId} />)}
+        {order.cart.map(item => <OrderItem item={item} key={item.pizzaId} isLoadingIngredients={fetcher.state==="loading"}
+         ingredients={fetcher.data?.find((el:any)=>el.id===item.pizzaId).ingredients}/>)}
       </ul>
       <div className="space-y-2 bg-stone-200 px-6 p-2">
         <p className="font-medium text-sm text-stone-600">Price pizza: {formatCurrency(order.orderPrice)}</p>

@@ -80,8 +80,13 @@ function CreateOrder() {
     const order: IOrder = {
       ...data,
       cart,
-      priority: data.priority ? "true" : "false"
+      priority: data.priority ? "true" : "false",
     };
+    
+    if(position?.latitude && position.latitude){
+      order.position=`${position?.latitude},${position?.longitude}`
+    }
+
     try {
       isSubmitting.current = true;
       const newOrder = await createOrder(order);

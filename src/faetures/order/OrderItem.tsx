@@ -3,10 +3,11 @@ import { ICart } from "../cart/types";
 
 interface OrderItem{
   item:ICart;
+  ingredients:string[],
+isLoadingIngredients:boolean
 }
 
-function OrderItem({item}:OrderItem) {
-
+function OrderItem({item,ingredients,isLoadingIngredients}:OrderItem) {
   return (
     <li className="p-4">
       <div className="flex justify-between">
@@ -15,6 +16,7 @@ function OrderItem({item}:OrderItem) {
         </p>
         <p className="font-bold text-sm">{formatCurrency(item.totalPrice)}</p>
       </div>
+      <p className="text-sm capitalize text-stone-500 italic">{isLoadingIngredients ? "loading..." :  ingredients?.join(",")}</p>
     </li>
   );
 }
